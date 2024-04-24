@@ -3,6 +3,7 @@ import "./Main.css";
 import WelcomeMessage from "../../components/welcome/WelcomeMessage";
 import PromptForm from "../../components/prompt/PromptForm";
 import SelectedImage from "../../components/image/SelectedImage";
+import Recommendations from "../../components/recommendations/Recommendations";
 
 const Main = () => {
   const [selectedImage, setSelectedImage] = useState(null);
@@ -72,6 +73,9 @@ const Main = () => {
             setTone={setTone}
             prompt={prompt}
         />
+        {
+            data.title? "": <Recommendations setPrompt={setPrompt} />
+        }
       </div>
     </div>
   );
