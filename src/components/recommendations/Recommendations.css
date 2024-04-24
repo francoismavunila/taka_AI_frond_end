@@ -1,0 +1,22 @@
+.recommendations {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 80%;
+    max-width: 500px;
+    gap: 10px;
+}
+
+.recommendation {
+    padding: 10px;
+    background-color: #333;
+    border-radius: 10px;
+    color: #fff;
+    font-size: 12px;
+}
+
+@media screen and (max-width: 768px){
+    .recommendations {
+        display: none;
+    }
+}       
