@@ -24,6 +24,7 @@ const Main = () => {
 
   const generateStory = (e) => {
     e.preventDefault();
+    setStatus("unprocessed");
     if (!selectedImage) {
       alert("Please select an image first");
       
