@@ -1,0 +1,72 @@
+.prompt {
+    width: 90%;
+    max-width: 600px;
+    height: 120px;
+    background-color: #333;
+    border-radius: 12px;
+    border: 2px solid #D94FD5;
+    padding: 10px;
+}
+
+.prompt-form {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    justify-content: space-between;
+}
+
+.prompt-form textarea {
+    width: 100%;
+    border: none;
+    background-color: transparent;
+    color: #fff;
+}
+
+.prompt-form textarea:focus {
+    outline: none;
+}
+
+.prompt-form select {
+    border: none;
+    background-color: transparent;
+    color: #fff;
+}
+
+.prompt-form select option {
+    background-color: #333;
+    color: #fff;
+
+}
+
+.prompt-form select:focus {
+    outline: none;
+}
+
+.flex-space {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.flex-row {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.icon {
+    background-color: transparent;
+    border: none;
+    color: #fff;
+}
+
+
+@media screen and (max-width: 768px) {
+    .prompt {
+        bottom: 40px;
+        position: fixed;
+    }
+    
+}
