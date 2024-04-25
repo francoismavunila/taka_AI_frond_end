@@ -74,7 +74,7 @@ const Main = () => {
             prompt={prompt}
         />
         {
-            data.title? "": <Recommendations setPrompt={setPrompt} />
+            data.title === null || selectedImage !== null ? "": <Recommendations setPrompt={setPrompt} />
         }
       </div>
     </div>

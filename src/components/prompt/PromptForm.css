@@ -6,6 +6,8 @@
     border-radius: 12px;
     border: 2px solid #D94FD5;
     padding: 10px;
+    bottom: 40px;
+        position: fixed;
 }
 
 .prompt-form {
