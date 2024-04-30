@@ -53,6 +53,7 @@ const Main = () => {
   return (
     <div className="Main">
       <div className="container">
+      <WelcomeMessage />
         {selectedImage ? (
           <SelectedImage
             selectedImage={selectedImage}
@@ -61,7 +62,7 @@ const Main = () => {
             status={status}
           />
         ) : (
-          <WelcomeMessage />
+          null
         )}
         <PromptForm
           setSelectedImage={setSelectedImage}

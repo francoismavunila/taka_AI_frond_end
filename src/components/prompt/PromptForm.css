@@ -54,14 +54,14 @@
 
 .flex-row {
     display: flex;
-    gap: 10px;
+    gap: 20px;
     align-items: center;
 }
 
 .icon {
     background-color: transparent;
     border: none;
-    color: #fff;
+    color: #fff;font-size: large;
 }
 
 .form-group {
