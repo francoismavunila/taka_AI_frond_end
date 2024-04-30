@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import "./Main.css";
 import WelcomeMessage from "../../components/welcome/WelcomeMessage";
 import PromptForm from "../../components/prompt/PromptForm";
@@ -22,6 +22,7 @@ const Main = () => {
   ];
   const [prompt, setPrompt] = useState("");
   const [tone, setTone] = useState(tones[0]);
+  const contRef = useRef(null);
 
   const generateStory = (e) => {
     e.preventDefault();
@@ -37,6 +38,8 @@ const Main = () => {
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
+      contRef.current.scrollIntoView({ behavior: "smooth" });
+      contRef.current.classList.add("container2")
       setData({
         title: "Story heading right here",
         story: [
@@ -52,7 +55,7 @@ const Main = () => {
 
   return (
     <div className="Main">
-      <div className="container">
+      <div className="container" ref={contRef}>
       <WelcomeMessage />
         {selectedImage ? (
           <SelectedImage
@@ -74,9 +77,9 @@ const Main = () => {
             setTone={setTone}
             prompt={prompt}
         />
-        {
+        {/* {
             data.title === null || selectedImage !== null ? "": <Recommendations setPrompt={setPrompt} />
-        }
+        } */}
       </div>
     </div>
   );
