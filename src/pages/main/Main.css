@@ -24,3 +24,21 @@
     gap: 20px;
     justify-content: center;
 }
+.pixelModal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #222;
+    padding: 10px;
+    z-index: 1000;
+    width: 40%;
+    height: 80%;
+    overflow: auto;
+}
+
+@media screen and (max-width: 768px) {
+    .pixelModal {
+        width: 90%;
+    }
+}

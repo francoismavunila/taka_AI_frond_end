@@ -4,12 +4,14 @@ import WelcomeMessage from "../../components/welcome/WelcomeMessage";
 import PromptForm from "../../components/prompt/PromptForm";
 import SelectedImage from "../../components/image/SelectedImage";
 import Recommendations from "../../components/recommendations/Recommendations";
+import PixelImages from "../../components/pixels/PixelImages";
 
 const Main = () => {
   const [selectedImage, setSelectedImage] = useState(null);
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState("unprocessed");
   const [data, setData] = useState({});
+  const [PixelModal,setPixelModal] = useState(true);
   const tones = [
     "Tone",
     "happy",
@@ -77,6 +79,14 @@ const Main = () => {
             data.title? "": <Recommendations setPrompt={setPrompt} />
         }
       </div>
+      {
+        PixelModal? (
+          <div className="pixelModal">
+            <button onClick={() => setPixelModal(false)}>Close Modal</button>
+            <PixelImages onImageSelect={setSelectedImage}/>
+          </div>
+        ) : null
+      }
     </div>
   );
 };
