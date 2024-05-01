@@ -4,7 +4,7 @@ import { FaArrowRight, FaImage } from "react-icons/fa";
 import { FaPix } from "react-icons/fa6";
 import { IoMdRefresh } from "react-icons/io";
 
-const PromptForm = ({ setSelectedImage, generateStory, data, tones, tone, setPrompt, prompt, setTone }) => {
+const PromptForm = ({ setSelectedImage, generateStory, data, tones, tone, setPrompt, prompt, setTone, fetchStory }) => {
   
 
   const handleImageChange = (event) => {
@@ -21,7 +21,7 @@ const PromptForm = ({ setSelectedImage, generateStory, data, tones, tone, setPro
   };
   return (
     <div className="prompt">
-      <form className="prompt-form" onSubmit={(e) => generateStory(e)}>
+      <form className="prompt-form" >
         <div className="form-group">
           <textarea
             type="text"
@@ -63,7 +63,7 @@ const PromptForm = ({ setSelectedImage, generateStory, data, tones, tone, setPro
               <FaImage />
             </label>
 
-            <button type="submit" className="icon">
+            <button type="button" className="icon" onClick={() => fetchStory()} >
                 {data.title ? <IoMdRefresh /> : <FaArrowRight />}
             </button>
           </div>
