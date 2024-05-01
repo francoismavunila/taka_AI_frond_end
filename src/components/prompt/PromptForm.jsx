@@ -4,7 +4,7 @@ import { FaArrowRight, FaImage } from "react-icons/fa";
 import { FaPix } from "react-icons/fa6";
 import { IoMdRefresh } from "react-icons/io";
 
-const PromptForm = ({ setSelectedImage, generateStory, data, tones, tone, setPrompt, prompt, setTone }) => {
+const PromptForm = ({ setSelectedImage, generateStory, data, tones, tone, setPrompt, prompt, setTone, setPixel }) => {
   
 
   const handleImageChange = (event) => {
@@ -48,7 +48,7 @@ const PromptForm = ({ setSelectedImage, generateStory, data, tones, tone, setPro
             {tone !== "Tone" && <p>{tone}</p>}
           </div>
           <div className="flex-row">
-            <button type="button" className="icon">
+            <button type="button" className="icon" onClick={() => setPixel(true)}>
               <FaPix />
             </button>
 
