@@ -1,23 +1,31 @@
-import React from "react";
+import React, { useState } from "react";
 import "./PromptForm.css";
 import { FaArrowRight, FaImage } from "react-icons/fa";
 import { FaPix } from "react-icons/fa6";
 import { IoMdRefresh } from "react-icons/io";
+import { FaPlayCircle, FaPauseCircle } from "react-icons/fa";
 
-const PromptForm = ({ setSelectedImage, generateStory, data, tones, tone, setPrompt, prompt, setTone, fetchStory ,setPixel, currentSelection}) => {
+const PromptForm = ({ setSelectedImage, generateStory, data, tones, tone, setPrompt, prompt, setTone, fetchStory ,setPixel, currentSelection, audio}) => {
 
   const handleImageChange = (event) => {
     const file = event.target.files[0];
-    const reader = new FileReader();
     currentSelection("image")
-    reader.onloadend = () => {
-      setSelectedImage(reader.result);
-    };
+    setSelectedImage(file);
+    console.log("image selected", file);
 
-    if (file) {
-      reader.readAsDataURL(file);
-    }
+    // const reader = new FileReader();
+    // currentSelection("image")
+    // reader.onloadend = () => {
+    //   console.log("image selected", reader.result);
+    //   setSelectedImage(reader.result);
+    // };
+
+    // if (file) {
+    //   reader.readAsDataURL(file);
+    // }
   };
+
+  const [playing, setPlaying] = useState(false);
   return (
     <div className="prompt">
       <form className="prompt-form" >
@@ -47,6 +55,16 @@ const PromptForm = ({ setSelectedImage, generateStory, data, tones, tone, setPro
             {tone !== "Tone" && <p>{tone}</p>}
           </div>
           <div className="flex-row">
+            {data.title? <>
+            {
+              playing? <button type="button" className="icon" onClick={() => {audio.pause(); setPlaying(false)}}>
+              <FaPauseCircle />
+              </button>: <button type="button" className="icon" onClick={() => {audio.play(); setPlaying(true)}}>
+            <FaPlayCircle />
+            </button>
+            }
+            </> : null}
+            
             <button type="button" className="icon" onClick={() => setPixel(true)}>
               <FaPix />
             </button>

@@ -86,14 +86,16 @@ const Main = () => {
   const fetchStory = async () => {
     // e.preventDefault();
     //check whethet setSelecetdImage or selectedPixelUrl is set and give a flag that says image or url
-    if (selectedImage) {
-        alert("image selcetd");
-    }
-    if(selectedPixelUrl){
-        alert("url selected");
-    }
- 
-    generateStory(tone, selectedImage, prompt)
+    // if (selectedImage) {
+    //     alert("image selcetd");
+    // }
+    // if(selectedPixelUrl){
+    //     alert("url selected");
+    // }
+    
+    setStatus("unprocessed");
+    setLoading(true);
+    generateStory(tone, selectedImage,selectedPixelUrl, prompt, currentSelection)
     .then(result => {
         if (result.audioBlob) {
             const audioUrl = URL.createObjectURL(result.audioBlob);
@@ -112,7 +114,7 @@ const Main = () => {
       <WelcomeMessage />
         {selectedImage || selectedPixelUrl ? (
         <SelectedImage
-          selectedImage={selectedImage || selectedPixelUrl}
+          selectedImage={selectedImage? URL.createObjectURL(selectedImage) : selectedPixelUrl}
           loading={loading}
           data={data}
           status={status}
@@ -131,6 +133,8 @@ const Main = () => {
             prompt={prompt}
             fetchStory={fetchStory}
             setPixel={setPixelModal}
+            currentSelection={setCurrentSelection}
+            audio={audio}
         />
         {/* {
             data.title === null || selectedImage !== null ? "": <Recommendations setPrompt={setPrompt} />
@@ -140,7 +144,8 @@ const Main = () => {
         PixelModal? (
           <div className="pixelModal">
             <div className="closeContainer"><button id="close" onClick={() => setPixelModal(false)}>x</button></div>
-            <PixelImages onImageSelect={setSelectedPixelUrl} setPixelModal={setPixelModal} />
+
+            <PixelImages onImageSelect={setSelectedPixelUrl} currentSelection={setCurrentSelection} setPixelModal={setPixelModal}/>
           </div>
         ) : null
       }

@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef, useCallback } from 'react';
 import './PixelImages.css';
 
-const PixelImages = ({ onImageSelect, setPixelModal }) => {
+const PixelImages = ({ onImageSelect, currentSelection, setPixelModal }) => {
   const [images, setImages] = useState([]);
   const [selectedImageUrl, setSelectedImageUrl] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
@@ -77,6 +77,7 @@ const PixelImages = ({ onImageSelect, setPixelModal }) => {
     onImageSelect(imageUrl)
     setSelectedImageUrl(imageUrl);
     setPixelModal(false);
+    currentSelection("url")
     console.log(imageUrl);
   };
 
