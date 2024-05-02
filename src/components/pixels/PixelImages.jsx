@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useRef, useCallback } from 'react';
+import { FaSearch } from "react-icons/fa";
 import './PixelImages.css';
 
 const PixelImages = ({ onImageSelect, currentSelection, setPixelModal }) => {
@@ -90,9 +91,11 @@ const PixelImages = ({ onImageSelect, currentSelection, setPixelModal }) => {
           onChange={e => setSearchTerm(e.target.value)} 
           placeholder="Search images..." 
         />
-        <button onClick={handleSearch}>Search</button>
+        <button className='search-btn' onClick={handleSearch}>
+        <FaSearch />
+        </button>
       </div>
-      <div id='searchText'><h6>{searchText}</h6></div>
+      {/* <div id='searchText'><h6>{searchText}</h6></div> */}
       <div id='imagesContainer'>
         {images && images.length > 0 && images.map((image, index) => (
           <img 
