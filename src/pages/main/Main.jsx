@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import "./Main.css";
 import WelcomeMessage from "../../components/welcome/WelcomeMessage";
 import PromptForm from "../../components/prompt/PromptForm";
 import SelectedImage from "../../components/image/SelectedImage";
 import Recommendations from "../../components/recommendations/Recommendations";
+import generateStory from "../../api_calls/generateStory";
 import PixelImages from "../../components/pixels/PixelImages";
 
 const Main = () => {
@@ -14,6 +15,7 @@ const Main = () => {
   const [data, setData] = useState({});
   const [PixelModal,setPixelModal] = useState(false);
   const [audio, setAudio] = useState(null);
+  const [currentSelection, setCurrentSelection] = useState(null);
   const tones = [
     "Tone",
     "happy",
@@ -26,10 +28,16 @@ const Main = () => {
   ];
   const [prompt, setPrompt] = useState("");
   const [tone, setTone] = useState(tones[0]);
+  const contRef = useRef(null);
 
-  const generateStory = (e) => {
+//   const generateStory = (e) => {
+//     e.preventDefault();
+//     setStatus("unprocessed");
+//     if (!selectedImage) {
+//       alert("Please select an image first");
+
+  const generateStoryy = (e) => {
     e.preventDefault();
-    setStatus("unprocessed");
     setStatus("unprocessed");
     if (!(selectedImage || selectedPixelUrl)) {
       alert("Please select an image first");
@@ -38,20 +46,8 @@ const Main = () => {
         alert("Please select a tone first"); 
     } 
     else {
-    
     setLoading(true);
-    // setTimeout(() => {
-    //   setLoading(false);
-    //   setData({
-    //     title: "Story heading right here",
-    //     story: [
-    //       "u egestas cras pellentesque suspendisse purus sit. Ut ornare non varius velit orci in ultrices. Aliquet sed tempor magnis nibh. Diam neque aliquam nibh quisque amet massa egestas iaculis. Dictum pulvinar vulputate sagittis adipiscing id fringilla lorem. Tellus pellentesque integer commodo nunc urna enim molestie ut faucibus. Magnis morbi duis ipsum nec ullamcorper lorem sodales. Dignissim semper pretium sed ultrices eget ac urna egestas hac. Diam justo semper gravida amet. Varius gravida ac felis massa. Urna proin vitae semper vitae. Erat imperdiet accumsan est in enim turpis ac enim. Dis scelerisque morbi risus id faucibus. Malesuada pellentesque sagittis facilisis mauris purus consequat. Eu euismod et mattis donec orci.",
-    //       "Faucibus lorem sodales nec aliquet donec sed diam in. Tempor amet commodo lorem egestas.",
-    //       "u egestas cras pellentesque suspendisse purus sit. Ut ornare non varius velit orci in ultrices. Aliquet sed tempor magnis nibh. Diam neque aliquam nibh quisque amet massa egestas iaculis. Dictum pulvinar vulputate sagittis adipiscing id fringilla lorem. Tellus pellentesque integer commodo nunc urna enim molestie ut faucibus. Magnis morbi duis ipsum nec ullamcorper lorem sodales. Dignissim semper pretium sed ultrices eget ac urna egestas hac. Diam justo semper gravida amet. Varius gravida ac felis massa. Urna proin vitae semper vitae. Erat imperdiet accumsan est in enim turpis ac enim. Dis scelerisque morbi risus id faucibus. Malesuada pellentesque sagittis facilisis mauris purus consequat. Eu euismod et mattis donec orci.",
-    //     ],
-    //   });
-    //   setStatus("processed");
-    // }, 8000);
+
     const formdata = new FormData();
     formdata.append("url", selectedPixelUrl);
     
@@ -64,9 +60,9 @@ const Main = () => {
     fetch("https://taka-1.onrender.com/stories/url/", requestOptions)
     .then((response) => {
       console.log(response);
-      response.headers.forEach((value, name) => {
-        console.log(`${name}: ${value}`);
-      });
+      // response.headers.forEach((value, name) => {
+      //   console.log(`${name}: ${value}`);
+      // });
       let data = response.headers.get('story'); 
       console.log(typeof data)
       const decodedString = decodeURIComponent(data);
@@ -87,10 +83,33 @@ const Main = () => {
   };
   }
 
+  const fetchStory = async () => {
+    // e.preventDefault();
+    //check whethet setSelecetdImage or selectedPixelUrl is set and give a flag that says image or url
+    if (selectedImage) {
+        alert("image selcetd");
+    }
+    if(selectedPixelUrl){
+        alert("url selected");
+    }
+ 
+    generateStory(tone, selectedImage, prompt)
+    .then(result => {
+        if (result.audioBlob) {
+            const audioUrl = URL.createObjectURL(result.audioBlob);
+            const audio = new Audio(audioUrl);
+            setAudio(audio);  
+        } 
+
+        result.storyText? setData({title:"title",story:[result.storyText]}): setData({title:"title",story:["No story generated"]});
+        setStatus("processed");
+    })
+    .catch(error => console.error(error));
+  }
   return (
     <div className="Main">
-      <div className="container">
-        <button onClick={()=>audio.play()}>play audio</button>
+      <div className="container" ref={contRef}>
+      <WelcomeMessage />
         {selectedImage || selectedPixelUrl ? (
         <SelectedImage
           selectedImage={selectedImage || selectedPixelUrl}
@@ -99,7 +118,7 @@ const Main = () => {
           status={status}
         />
         ) : (
-          <WelcomeMessage />
+          null
         )}
         <PromptForm
           setSelectedImage={setSelectedImage}
@@ -110,11 +129,12 @@ const Main = () => {
             setPrompt={setPrompt}
             setTone={setTone}
             prompt={prompt}
+            fetchStory={fetchStory}
             setPixel={setPixelModal}
         />
-        {
-            data.title? "": <Recommendations setPrompt={setPrompt} />
-        }
+        {/* {
+            data.title === null || selectedImage !== null ? "": <Recommendations setPrompt={setPrompt} />
+        } */}
       </div>
       {
         PixelModal? (
@@ -128,5 +148,6 @@ const Main = () => {
     </div>
   );
 };
-
+;
 export default Main;
+
