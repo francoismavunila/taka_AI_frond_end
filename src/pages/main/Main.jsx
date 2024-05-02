@@ -71,10 +71,10 @@ const Main = () => {
       console.log(typeof data)
       const decodedString = decodeURIComponent(data);
       console.log(decodedString);
-      // setData({
-      //   title:"title",
-      //   story:[decodedString]
-      // })
+      setData({
+        title:"title",
+        story:[decodedString]
+      })
       return response.blob();
     })
     .then((audioBlob) => {
