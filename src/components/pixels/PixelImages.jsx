@@ -1,81 +1,114 @@
-import React,{useEffect, useState} from 'react';
+import React, { useEffect, useState, useRef, useCallback } from 'react';
+import './PixelImages.css';
 
-const PixelImages = ({onImageSelect }) => {
-    const [images, setImages] = useState([]);
-  
-    const [selectedImageUrl, setSelectedImageUrl] = useState(null);
+const PixelImages = ({ onImageSelect }) => {
+  const [images, setImages] = useState([]);
+  const [selectedImageUrl, setSelectedImageUrl] = useState(null);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [searchText, setSearchText] = useState("populars");
+  const [nextPageUrl, setNextPageUrl] = useState('https://taka-1.onrender.com/media/populars/');
+  const [loading, setLoading] = useState(false);
 
-    const handleImageClick = (imageUrl) => {
-        onImageSelect(imageUrl)
-        setSelectedImageUrl(imageUrl);
-        console.log(imageUrl);
-    };
-  
-  const fetchImages = async (url, allImages = []) => {
-    const response = await fetch(url, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
+  const observer = useRef();
+  const lastImageElementRef = useCallback(node => {
+    if (loading) return;
+    if (observer.current) observer.current.disconnect();
+    observer.current = new IntersectionObserver(entries => {
+      if (entries[0].isIntersecting && nextPageUrl) {
+        console.log("called")
+        fetchImages(nextPageUrl);
       }
     });
-    const data = await response.json();
-    const images = [...allImages, ...data.photos.map(image => image)];
-  
-    // if (data.next_page) {
-    //   return fetchImages(data.next_page, images);
-    // } else {
-    //   return images;
-    // }
-    return images;
-  };
-  
-  useEffect(() => {
-    fetchImages('https://taka-1.onrender.com/media/populars/')
-      .then(images => {
-        console.log("the image",images)
-        setImages(images);
-      })
-      .catch(error => {
-        console.error('There has been a problem with your fetch operation:', error);
+    if (node) observer.current.observe(node);
+  }, [loading, nextPageUrl]);
+
+  const fetchImages = async (url) => {
+    setLoading(true);
+    let response;
+    try {
+      response = await fetch(url, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        }
       });
+    } catch (error) {
+      console.error("error at fetching",error);
+    }
+    console.log(url)
+    console.log("37")
+    console.log(response)
+    console.log("39")
+    if (response && response.ok) {
+      const data = await response.json();
+      console.log("42")
+      const newImages = data.photos.map(image => image);
+      console.log("44")
+      // Update state with new images
+      setImages(prevImages => [...prevImages, ...newImages]);
+      console.log("47")
+      setNextPageUrl(data.next_page);
+      console.log("49")
+      setLoading(false);
+      console.log("51")
+      console.log(data.next_page)
+    } else {
+      // Handle error
+      console.error('Error fetching images');
+    //   setTimeout(() => fetchImages(url), 5000);
+    }
+  };
+
+  // Call fetchImages when the component mounts
+  useEffect(() => {
+    console.log("called from usefeect")
+    fetchImages(nextPageUrl);
+    console.log("after")
   }, []);
 
+  const handleSearch = () => {
+    const url = `https://taka-1.onrender.com/media/photos/${searchTerm}`;
+    setImages([]); // Clear the current images
+    setSearchText(searchTerm); // Update the search text
+    fetchImages(url); // Fetch images immediately
+  };
+
+  const handleImageClick = (imageUrl) => {
+    onImageSelect(imageUrl)
+    setSelectedImageUrl(imageUrl);
+    console.log(imageUrl);
+  };
+
   return (
-<div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
-  {images && images.length > 0 && images.map((image, index) => (
-        //   <img 
-        //   src={image?.src?.original} 
-        //   alt={image.alt ? image.alt : `image-${index}`} 
-        //   style={{ width: '40%', height: 'auto',margin: '5px 1px', }} 
-        // />
-    <div 
-      key={index} 
-      style={{ 
-        width: '40%', 
-        margin: '10px 5%', 
-        border: '1px solid #ccc', 
-        borderRadius: '5px', 
-        padding: '10px', 
-        boxSizing: 'border-box',
-        '@media (max-width: 600px)': {
-          width: '90%',
-          margin: '10px 5%',
-        }
-      }}
-    >
-      <img 
-        src={image?.src?.original} 
-        alt={image.alt ? image.alt : `image-${index}`} 
-        style={{ 
-            width: '100%', 
-            height: 'auto', 
-            border: selectedImageUrl === image?.src?.original ? '2px solid blue' : 'none' 
-          }} 
-          onClick={() => handleImageClick(image?.src?.original)}
-      />
+    <div>
+      <div id='search'>
+        <input 
+          type="text" 
+          value={searchTerm} 
+          onChange={e => setSearchTerm(e.target.value)} 
+          placeholder="Search images..." 
+        />
+        <button onClick={handleSearch}>Search</button>
+      </div>
+      <div id='searchText'><h6>{searchText}</h6></div>
+      <div id='imagesContainer'>
+        {images && images.length > 0 && images.map((image, index) => (
+          <img 
+            ref={index === images.length - 1 ? lastImageElementRef : null}
+            src={image?.src?.original} 
+            alt={image.alt ? image.alt : `image-${index}`} 
+            style={{ 
+              width: '44%', 
+              height: 'auto',
+              padding:'1px', 
+              border: selectedImageUrl === image?.src?.original ? '2px solid #D94FD5' : 'none' 
+            }} 
+            onClick={() => handleImageClick(image?.src?.original)}
+            key={index} 
+          />
+        ))}
+      </div>
     </div>
-  ))}
-</div>
   );
 };
 

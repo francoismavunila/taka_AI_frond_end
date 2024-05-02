@@ -30,13 +30,14 @@ const Main = () => {
   const generateStory = (e) => {
     e.preventDefault();
     setStatus("unprocessed");
-    if (false) {
+    setStatus("unprocessed");
+    if (!(selectedImage || selectedPixelUrl)) {
       alert("Please select an image first");
       
-    } else if (false) {
-        alert("Please select a tone first");
-        
-    } else {
+    } else if (!tone || tone === "Tone") {
+        alert("Please select a tone first"); 
+    } 
+    else {
     
     setLoading(true);
     // setTimeout(() => {
@@ -52,7 +53,7 @@ const Main = () => {
     //   setStatus("processed");
     // }, 8000);
     const formdata = new FormData();
-    formdata.append("url", "https://images.pexels.com/photos/15286/pexels-photo.jpg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940");
+    formdata.append("url", selectedPixelUrl);
     
     const requestOptions = {
       method: "POST",
@@ -62,15 +63,25 @@ const Main = () => {
     
     fetch("https://taka-1.onrender.com/stories/url/", requestOptions)
     .then((response) => {
-      const story = response.headers.get('story');
-      console.log(story);
-  
+      console.log(response);
+      response.headers.forEach((value, name) => {
+        console.log(`${name}: ${value}`);
+      });
+      let data = response.headers.get('story'); 
+      console.log(typeof data)
+      const decodedString = decodeURIComponent(data);
+      console.log(decodedString);
+      // setData({
+      //   title:"title",
+      //   story:[decodedString]
+      // })
       return response.blob();
     })
     .then((audioBlob) => {
       const audioUrl = URL.createObjectURL(audioBlob);
       const audio = new Audio(audioUrl);
-      audio.play();
+      setAudio(audio);  
+      setStatus("processed");
     })
     .catch((error) => console.error(error));
   };
@@ -79,6 +90,7 @@ const Main = () => {
   return (
     <div className="Main">
       <div className="container">
+        <button onClick={()=>audio.play()}>play audio</button>
         {selectedImage || selectedPixelUrl ? (
         <SelectedImage
           selectedImage={selectedImage || selectedPixelUrl}
@@ -107,11 +119,12 @@ const Main = () => {
       {
         PixelModal? (
           <div className="pixelModal">
-            <button onClick={() => setPixelModal(false)}>Close Modal</button>
+            <div className="closeContainer"><button id="close" onClick={() => setPixelModal(false)}>x</button></div>
             <PixelImages onImageSelect={setSelectedPixelUrl}/>
           </div>
         ) : null
       }
+    
     </div>
   );
 };
