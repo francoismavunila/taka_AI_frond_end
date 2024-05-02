@@ -140,7 +140,7 @@ const Main = () => {
         PixelModal? (
           <div className="pixelModal">
             <div className="closeContainer"><button id="close" onClick={() => setPixelModal(false)}>x</button></div>
-            <PixelImages onImageSelect={setSelectedPixelUrl}/>
+            <PixelImages onImageSelect={setSelectedPixelUrl} setPixelModal={setPixelModal} />
           </div>
         ) : null
       }

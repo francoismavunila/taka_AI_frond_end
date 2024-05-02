@@ -38,15 +38,15 @@
 }
 .pixelModal {
     position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    top: 5%;
+    left: 5%;
+    /* transform: translate(-50%, -50%); */
     background-color: #222;
     padding: 10px;
     z-index: 1000;
-    width: 40%;
-    height: 100%;
-    overflow: auto;
+    width: 90%;
+    height: 55vh;
+    /* overflow: auto; */
     padding-bottom: 10px;
 }
 ::-webkit-scrollbar {
