@@ -67,7 +67,8 @@ const PixelImages = ({ onImageSelect, currentSelection, setPixelModal }) => {
     console.log("after")
   }, []);
 
-  const handleSearch = () => {
+  const handleSearch = (e) => {
+    e.preventDefault();
     const url = `https://taka-1.onrender.com/media/photos/${searchTerm}`;
     setImages([]); // Clear the current images
     setSearchText(searchTerm); // Update the search text
@@ -84,17 +85,17 @@ const PixelImages = ({ onImageSelect, currentSelection, setPixelModal }) => {
 
   return (
     <div>
-      <div id='search'>
+      <form onSubmit={(e) => {handleSearch(e)}} id='search'>
         <input 
           type="text" 
           value={searchTerm} 
           onChange={e => setSearchTerm(e.target.value)} 
           placeholder="Search images..." 
         />
-        <button className='search-btn' onClick={handleSearch}>
+        <button className='search-btn' type='submit'>
         <FaSearch />
         </button>
-      </div>
+      </form>
       {/* <div id='searchText'><h6>{searchText}</h6></div> */}
       <div id='imagesContainer'>
         {images && images.length > 0 && images.map((image, index) => (
