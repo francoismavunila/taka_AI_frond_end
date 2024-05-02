@@ -3,21 +3,26 @@ import "./PromptForm.css";
 import { FaArrowRight, FaImage } from "react-icons/fa";
 import { FaPix } from "react-icons/fa6";
 import { IoMdRefresh } from "react-icons/io";
+import { FaPlayCircle } from "react-icons/fa";
 
-const PromptForm = ({ setSelectedImage, generateStory, data, tones, tone, setPrompt, prompt, setTone, fetchStory }) => {
-  
+const PromptForm = ({ setSelectedImage, generateStory, data, tones, tone, setPrompt, prompt, setTone, fetchStory ,setPixel, currentSelection, audio}) => {
 
   const handleImageChange = (event) => {
     const file = event.target.files[0];
-    const reader = new FileReader();
+    currentSelection("image")
+    setSelectedImage(file);
+    console.log("image selected", file);
 
-    reader.onloadend = () => {
-      setSelectedImage(reader.result);
-    };
+    // const reader = new FileReader();
+    // currentSelection("image")
+    // reader.onloadend = () => {
+    //   console.log("image selected", reader.result);
+    //   setSelectedImage(reader.result);
+    // };
 
-    if (file) {
-      reader.readAsDataURL(file);
-    }
+    // if (file) {
+    //   reader.readAsDataURL(file);
+    // }
   };
   return (
     <div className="prompt">
@@ -48,7 +53,10 @@ const PromptForm = ({ setSelectedImage, generateStory, data, tones, tone, setPro
             {tone !== "Tone" && <p>{tone}</p>}
           </div>
           <div className="flex-row">
-            <button type="button" className="icon">
+            <button type="button" className="icon" onClick={() => audio.play()}>
+            <FaPlayCircle />
+            </button>
+            <button type="button" className="icon" onClick={() => setPixel(true)}>
               <FaPix />
             </button>
 
