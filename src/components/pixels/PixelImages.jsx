@@ -1,7 +1,8 @@
 import React, { useEffect, useState, useRef, useCallback } from 'react';
+import { FaSearch } from "react-icons/fa";
 import './PixelImages.css';
 
-const PixelImages = ({ onImageSelect, currentSelection }) => {
+const PixelImages = ({ onImageSelect, currentSelection, setPixelModal }) => {
   const [images, setImages] = useState([]);
   const [selectedImageUrl, setSelectedImageUrl] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
@@ -66,7 +67,8 @@ const PixelImages = ({ onImageSelect, currentSelection }) => {
     console.log("after")
   }, []);
 
-  const handleSearch = () => {
+  const handleSearch = (e) => {
+    e.preventDefault();
     const url = `https://taka-1.onrender.com/media/photos/${searchTerm}`;
     setImages([]); // Clear the current images
     setSearchText(searchTerm); // Update the search text
@@ -76,22 +78,25 @@ const PixelImages = ({ onImageSelect, currentSelection }) => {
   const handleImageClick = (imageUrl) => {
     onImageSelect(imageUrl)
     setSelectedImageUrl(imageUrl);
+    setPixelModal(false);
     currentSelection("url")
     console.log(imageUrl);
   };
 
   return (
     <div>
-      <div id='search'>
+      <form onSubmit={(e) => {handleSearch(e)}} id='search'>
         <input 
           type="text" 
           value={searchTerm} 
           onChange={e => setSearchTerm(e.target.value)} 
           placeholder="Search images..." 
         />
-        <button onClick={handleSearch}>Search</button>
-      </div>
-      <div id='searchText'><h6>{searchText}</h6></div>
+        <button className='search-btn' type='submit'>
+        <FaSearch />
+        </button>
+      </form>
+      {/* <div id='searchText'><h6>{searchText}</h6></div> */}
       <div id='imagesContainer'>
         {images && images.length > 0 && images.map((image, index) => (
           <img 

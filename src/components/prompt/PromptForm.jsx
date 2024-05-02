@@ -1,9 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import "./PromptForm.css";
 import { FaArrowRight, FaImage } from "react-icons/fa";
 import { FaPix } from "react-icons/fa6";
 import { IoMdRefresh } from "react-icons/io";
-import { FaPlayCircle } from "react-icons/fa";
+import { FaPlayCircle, FaPauseCircle } from "react-icons/fa";
 
 const PromptForm = ({ setSelectedImage, generateStory, data, tones, tone, setPrompt, prompt, setTone, fetchStory ,setPixel, currentSelection, audio}) => {
 
@@ -24,6 +24,8 @@ const PromptForm = ({ setSelectedImage, generateStory, data, tones, tone, setPro
     //   reader.readAsDataURL(file);
     // }
   };
+
+  const [playing, setPlaying] = useState(false);
   return (
     <div className="prompt">
       <form className="prompt-form" >
@@ -53,9 +55,16 @@ const PromptForm = ({ setSelectedImage, generateStory, data, tones, tone, setPro
             {tone !== "Tone" && <p>{tone}</p>}
           </div>
           <div className="flex-row">
-            <button type="button" className="icon" onClick={() => audio.play()}>
+            {data.title? <>
+            {
+              playing? <button type="button" className="icon" onClick={() => {audio.pause(); setPlaying(false)}}>
+              <FaPauseCircle />
+              </button>: <button type="button" className="icon" onClick={() => {audio.play(); setPlaying(true)}}>
             <FaPlayCircle />
             </button>
+            }
+            </> : null}
+            
             <button type="button" className="icon" onClick={() => setPixel(true)}>
               <FaPix />
             </button>

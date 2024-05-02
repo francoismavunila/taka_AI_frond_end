@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState } from "react"; 
 import "./Main.css";
 import WelcomeMessage from "../../components/welcome/WelcomeMessage";
 import PromptForm from "../../components/prompt/PromptForm";
@@ -144,7 +144,8 @@ const Main = () => {
         PixelModal? (
           <div className="pixelModal">
             <div className="closeContainer"><button id="close" onClick={() => setPixelModal(false)}>x</button></div>
-            <PixelImages onImageSelect={setSelectedPixelUrl} currentSelection={setCurrentSelection}/>
+
+            <PixelImages onImageSelect={setSelectedPixelUrl} currentSelection={setCurrentSelection} setPixelModal={setPixelModal}/>
           </div>
         ) : null
       }
