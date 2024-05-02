@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import "./Main.css";
 import WelcomeMessage from "../../components/welcome/WelcomeMessage";
 import PromptForm from "../../components/prompt/PromptForm";
 import SelectedImage from "../../components/image/SelectedImage";
 import Recommendations from "../../components/recommendations/Recommendations";
+import generateStory from "../../api_calls/generateStory";
 
 const Main = () => {
   const [selectedImage, setSelectedImage] = useState(null);
@@ -22,37 +23,57 @@ const Main = () => {
   ];
   const [prompt, setPrompt] = useState("");
   const [tone, setTone] = useState(tones[0]);
+  const contRef = useRef(null);
 
-  const generateStory = (e) => {
-    e.preventDefault();
-    setStatus("unprocessed");
-    if (!selectedImage) {
-      alert("Please select an image first");
+//   const generateStory = (e) => {
+//     e.preventDefault();
+//     setStatus("unprocessed");
+//     if (!selectedImage) {
+//       alert("Please select an image first");
       
-    } else if (!tone || tone === "Tone") {
-        alert("Please select a tone first");
+//     } else if (!tone || tone === "Tone") {
+//         alert("Please select a tone first");
         
-    } else {
+//     } else {
     
-    setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-      setData({
-        title: "Story heading right here",
-        story: [
-          "u egestas cras pellentesque suspendisse purus sit. Ut ornare non varius velit orci in ultrices. Aliquet sed tempor magnis nibh. Diam neque aliquam nibh quisque amet massa egestas iaculis. Dictum pulvinar vulputate sagittis adipiscing id fringilla lorem. Tellus pellentesque integer commodo nunc urna enim molestie ut faucibus. Magnis morbi duis ipsum nec ullamcorper lorem sodales. Dignissim semper pretium sed ultrices eget ac urna egestas hac. Diam justo semper gravida amet. Varius gravida ac felis massa. Urna proin vitae semper vitae. Erat imperdiet accumsan est in enim turpis ac enim. Dis scelerisque morbi risus id faucibus. Malesuada pellentesque sagittis facilisis mauris purus consequat. Eu euismod et mattis donec orci.",
-          "Faucibus lorem sodales nec aliquet donec sed diam in. Tempor amet commodo lorem egestas.",
-          "u egestas cras pellentesque suspendisse purus sit. Ut ornare non varius velit orci in ultrices. Aliquet sed tempor magnis nibh. Diam neque aliquam nibh quisque amet massa egestas iaculis. Dictum pulvinar vulputate sagittis adipiscing id fringilla lorem. Tellus pellentesque integer commodo nunc urna enim molestie ut faucibus. Magnis morbi duis ipsum nec ullamcorper lorem sodales. Dignissim semper pretium sed ultrices eget ac urna egestas hac. Diam justo semper gravida amet. Varius gravida ac felis massa. Urna proin vitae semper vitae. Erat imperdiet accumsan est in enim turpis ac enim. Dis scelerisque morbi risus id faucibus. Malesuada pellentesque sagittis facilisis mauris purus consequat. Eu euismod et mattis donec orci.",
-        ],
-      });
-      setStatus("processed");
-    }, 8000);
-}
-  };
+//     setLoading(true);
+//     setTimeout(() => {
+//       setLoading(false);
+//       contRef.current.scrollIntoView({ behavior: "smooth" });
+//       contRef.current.classList.add("container2")
+//       setData({
+//         title: "Story heading right here",
+//         story: [
+//           "u egestas cras pellentesque suspendisse purus sit. Ut ornare non varius velit orci in ultrices. Aliquet sed tempor magnis nibh. Diam neque aliquam nibh quisque amet massa egestas iaculis. Dictum pulvinar vulputate sagittis adipiscing id fringilla lorem. Tellus pellentesque integer commodo nunc urna enim molestie ut faucibus. Magnis morbi duis ipsum nec ullamcorper lorem sodales. Dignissim semper pretium sed ultrices eget ac urna egestas hac. Diam justo semper gravida amet. Varius gravida ac felis massa. Urna proin vitae semper vitae. Erat imperdiet accumsan est in enim turpis ac enim. Dis scelerisque morbi risus id faucibus. Malesuada pellentesque sagittis facilisis mauris purus consequat. Eu euismod et mattis donec orci.",
+//           "Faucibus lorem sodales nec aliquet donec sed diam in. Tempor amet commodo lorem egestas.",
+//           "u egestas cras pellentesque suspendisse purus sit. Ut ornare non varius velit orci in ultrices. Aliquet sed tempor magnis nibh. Diam neque aliquam nibh quisque amet massa egestas iaculis. Dictum pulvinar vulputate sagittis adipiscing id fringilla lorem. Tellus pellentesque integer commodo nunc urna enim molestie ut faucibus. Magnis morbi duis ipsum nec ullamcorper lorem sodales. Dignissim semper pretium sed ultrices eget ac urna egestas hac. Diam justo semper gravida amet. Varius gravida ac felis massa. Urna proin vitae semper vitae. Erat imperdiet accumsan est in enim turpis ac enim. Dis scelerisque morbi risus id faucibus. Malesuada pellentesque sagittis facilisis mauris purus consequat. Eu euismod et mattis donec orci.",
+//         ],
+//       });
+//       setStatus("processed");
+//     }, 8000);
+// }
+//   };
+
+
+  const fetchStory = async () => {
+    // e.preventDefault();
+    generateStory(tone, selectedImage, prompt)
+    .then(result => {
+        if (result.audioBlob) {
+            const audioUrl = URL.createObjectURL(result.audioBlob);
+            console.log("Story audio URL:", audioUrl);
+            console.log("Story text:", result.storyText);
+        } else {
+            console.error(result.error);
+        }
+    })
+    .catch(error => console.error(error));
+  }
 
   return (
     <div className="Main">
-      <div className="container">
+      <div className="container" ref={contRef}>
+      <WelcomeMessage />
         {selectedImage ? (
           <SelectedImage
             selectedImage={selectedImage}
@@ -61,7 +82,7 @@ const Main = () => {
             status={status}
           />
         ) : (
-          <WelcomeMessage />
+          null
         )}
         <PromptForm
           setSelectedImage={setSelectedImage}
@@ -72,10 +93,11 @@ const Main = () => {
             setPrompt={setPrompt}
             setTone={setTone}
             prompt={prompt}
+            fetchStory={fetchStory}
         />
-        {
-            data.title? "": <Recommendations setPrompt={setPrompt} />
-        }
+        {/* {
+            data.title === null || selectedImage !== null ? "": <Recommendations setPrompt={setPrompt} />
+        } */}
       </div>
     </div>
   );
