@@ -114,7 +114,10 @@ const Main = () => {
     <div className="Main">
       
       <div className="container" ref={contRef}>
-      <WelcomeMessage />
+        {
+          status === "unprocessed"? <WelcomeMessage />: null
+        }
+      
         {selectedImage || selectedPixelUrl ? (
         <SelectedImage
           selectedImage={selectedImage? URL.createObjectURL(selectedImage) : selectedPixelUrl}

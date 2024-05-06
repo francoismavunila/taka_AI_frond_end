@@ -1,6 +1,6 @@
 .image {
     width: 90%;
-    max-width: 500px;
+    max-width: 450px;
     padding: 5px;
     background-color: #333;
     border-radius: 10px;
@@ -8,12 +8,13 @@
     flex-direction: column;
     gap: 10px;
     margin-bottom: 120px;
+    border: 1px solid rgb(125, 125, 125, 0.5);
 }
 
 .image img {
     width: 100%;
     border-radius: 10px;
-    max-height: 300px;
+    max-height: 250px;
 }
 
 .story {
@@ -23,6 +24,9 @@
     gap: 15px;
     align-items: flex-start;
     padding: 5px 15px;
+    max-height: 60vh;
+    overflow: auto;
+    /* border: 1px solid rgb(125, 125, 125, 0.5); */
 }
 
 .story h2 {
