@@ -102,7 +102,7 @@ const Main = () => {
         //     const audio = new Audio(audioUrl);
         //     setAudio(audio);  
         // } 
-      
+      result.audioUrl? setAudio(new Audio(result.audioUrl)): setAudio(null);
       console.log(result)
       result.status? setData({title:result.title,story:[result.story]}): setData({title:"title",story:["No story generated"]});
       setStatus("processed");
@@ -112,6 +112,12 @@ const Main = () => {
   return (
     <div className="Main">
       <div className="container" ref={contRef}>
+ 
+          <audio controls>
+              <source src={'data'} type="audio/mpeg" />
+              Your browser does not support the audio element.
+          </audio>
+
       <WelcomeMessage />
         {selectedImage || selectedPixelUrl ? (
         <SelectedImage
