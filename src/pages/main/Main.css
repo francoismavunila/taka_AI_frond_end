@@ -8,9 +8,32 @@
 .Main {
     min-height: 100vh;
     width: 100%;
-    background-image: url('../../assets/taka_bg.jpeg');
-    background-size: cover;
-    background-position: center;
+    position: relative;
+    z-index: 1;
+}
+
+
+
+.back {
+  height: 200vh; /* Double the viewport height to accommodate two instances of the background */
+  width: 100%;
+  background-image: url('../../assets/taka_bg.jpeg'), url('../../assets/taka_bg.jpeg'); /* Duplicate the background image */
+  background-size: cover;
+  background-position: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  animation: animateBackground 30s linear infinite;
+}
+
+@keyframes animateBackground {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-50%);
+  }
 }
 
 .container {
@@ -44,11 +67,13 @@
     background-color: #222;
     padding: 10px;
     z-index: 1000;
-    width: 90%;
-    height: 55vh;
+    width: 60%;
+    height: 65vh;
     /* overflow: auto; */
     padding-bottom: 10px;
     border-radius: 10px;
+    inset: 20px 20% ;
+    border: 1px solid rgba(125,125,125,0.5);
 }
 ::-webkit-scrollbar {
     width: 10px;
@@ -71,6 +96,7 @@
     scrollbar-width: thin;
     scrollbar-color: #333 #555; /* Change the second color to your desired color */
   }
+   
 .closeContainer{
     background-color: #2f0d5a;
     width: 100%;
@@ -89,6 +115,16 @@
   }
 @media screen and (max-width: 768px) {
     .pixelModal {
-        width: 100%;
+        width: 90%;
+        inset: 5%;
     }
+}
+
+
+@media screen and (min-width: 1024px) {
+  .pixelModal {
+      width: 50%;
+      inset: 20px 25%;
+  }
+  
 }

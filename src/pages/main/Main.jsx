@@ -110,15 +110,15 @@ const Main = () => {
     .catch(error => console.error(error));
   }
   return (
+    <>
+    <div className="back"></div>
     <div className="Main">
+      
       <div className="container" ref={contRef}>
-          {/* {audio}
-          <audio controls>
-              <source src={audio} type="audio/mpeg" />
-              Your browser does not support the audio element.
-          </audio> */}
-
-      <WelcomeMessage />
+        {
+          status === "unprocessed"? <WelcomeMessage />: null
+        }
+      
         {selectedImage || selectedPixelUrl ? (
         <SelectedImage
           selectedImage={selectedImage? URL.createObjectURL(selectedImage) : selectedPixelUrl}
@@ -158,6 +158,8 @@ const Main = () => {
       }
     
     </div>
+    </>
+   
   );
 };
 ;

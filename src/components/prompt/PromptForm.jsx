@@ -43,7 +43,7 @@ const PromptForm = ({ setSelectedImage, generateStory, data, tones, tone, setPro
           <div className="form-group">
             <select
               className="form-control"
-              value={tone}
+              value="tone"
               onChange={(e) => setTone(e.target.value)}
             >
               {tones.map((tone, index) => (
@@ -65,7 +65,7 @@ const PromptForm = ({ setSelectedImage, generateStory, data, tones, tone, setPro
             }
             </> : null}
             
-            <button type="button" className="icon" onClick={() => setPixel(true)}>
+            <button title="Select photo from pexels" type="button" className="icon" onClick={() => setPixel(true)}>
               <FaPix />
             </button>
 
@@ -76,12 +76,12 @@ const PromptForm = ({ setSelectedImage, generateStory, data, tones, tone, setPro
               style={{ display: "none" }}
               onChange={handleImageChange}
             />
-            <label htmlFor="image" className="icon">
+            <label title="Upload photo" htmlFor="image" className="icon">
               <FaImage />
             </label>
 
             <button type="button" className="icon" onClick={() => fetchStory()} >
-                {data.title ? <IoMdRefresh /> : <FaArrowRight />}
+                {data.title ? <IoMdRefresh title="Regenarate Story" /> : <FaArrowRight title="Generate Story"/>}
             </button>
           </div>
         </div>
