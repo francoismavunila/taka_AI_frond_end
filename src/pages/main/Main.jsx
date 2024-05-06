@@ -97,14 +97,15 @@ const Main = () => {
     setLoading(true);
     generateStory(tone, selectedImage,selectedPixelUrl, prompt, currentSelection)
     .then(result => {
-        if (result.audioBlob) {
-            const audioUrl = URL.createObjectURL(result.audioBlob);
-            const audio = new Audio(audioUrl);
-            setAudio(audio);  
-        } 
-
-        result.storyText? setData({title:"title",story:[result.storyText]}): setData({title:"title",story:["No story generated"]});
-        setStatus("processed");
+        // if (result.audioBlob) {
+        //     const audioUrl = URL.createObjectURL(result.audioBlob);
+        //     const audio = new Audio(audioUrl);
+        //     setAudio(audio);  
+        // } 
+      result.audioUrl? setAudio(new Audio(result.audioUrl)): setAudio(null);
+      console.log(result.AudioUrl)
+      result.status? setData({title:result.title,story:[result.story]}): setData({title:"title",story:["No story generated"]});
+      setStatus("processed");
     })
     .catch(error => console.error(error));
   }
