@@ -97,11 +97,12 @@ const Main = () => {
     setLoading(true);
     generateStory(tone, selectedImage,selectedPixelUrl, prompt, currentSelection)
     .then(result => {
-        if (result.audioBlob) {
-            const audioUrl = URL.createObjectURL(result.audioBlob);
-            const audio = new Audio(audioUrl);
-            setAudio(audio);  
-        } 
+        // if (result.audioBlob) {
+        //     const audioUrl = URL.createObjectURL(result.audioBlob);
+        //     const audio = new Audio(audioUrl);
+        //     setAudio(audio);  
+        // } 
+        if ()
 
         result.storyText? setData({title:"title",story:[result.storyText]}): setData({title:"title",story:["No story generated"]});
         setStatus("processed");
