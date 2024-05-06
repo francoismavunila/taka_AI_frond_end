@@ -114,7 +114,7 @@ const Main = () => {
       <div className="container" ref={contRef}>
  
           <audio controls>
-              <source src={'data'} type="audio/mpeg" />
+              <source src={audio} type="audio/mpeg" />
               Your browser does not support the audio element.
           </audio>
 
