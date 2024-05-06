@@ -43,7 +43,7 @@ const PromptForm = ({ setSelectedImage, generateStory, data, tones, tone, setPro
           <div className="form-group">
             <select
               className="form-control"
-              value={tone}
+              value="tone"
               onChange={(e) => setTone(e.target.value)}
             >
               {tones.map((tone, index) => (

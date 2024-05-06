@@ -84,7 +84,7 @@ const PixelImages = ({ onImageSelect, currentSelection, setPixelModal }) => {
   };
 
   return (
-    <div>
+    <div className='con'>
       <form onSubmit={(e) => {handleSearch(e)}} id='search'>
         <input 
           type="text" 

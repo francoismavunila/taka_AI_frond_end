@@ -1,8 +1,16 @@
 #imagesContainer {
   width: 90%;
-  height: 30vh;
+  /* max-width: 500px; */
+  height: 45vh;
   /* background-color:  rgb(129, 129, 129); */
   overflow-y: scroll;
+}
+
+.con {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 #search {
@@ -39,5 +47,6 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
+    gap: 10px;
   
   }

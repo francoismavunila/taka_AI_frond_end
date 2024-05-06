@@ -109,7 +109,10 @@ const Main = () => {
     .catch(error => console.error(error));
   }
   return (
+    <>
+    <div className="back"></div>
     <div className="Main">
+      
       <div className="container" ref={contRef}>
       <WelcomeMessage />
         {selectedImage || selectedPixelUrl ? (
@@ -151,6 +154,8 @@ const Main = () => {
       }
     
     </div>
+    </>
+   
   );
 };
 ;

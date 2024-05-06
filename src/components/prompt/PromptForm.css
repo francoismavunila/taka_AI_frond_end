@@ -24,6 +24,8 @@
     border: none;
     background-color: transparent;
     color: #fff;
+    height: 50px;
+    resize: none;
 }
 
 .prompt-form textarea:focus {
@@ -75,6 +77,7 @@
     background-color: aliceblue;
     padding: 7px;
     border-radius: 5px;
+    font-size: 11px;
 }
 
 
