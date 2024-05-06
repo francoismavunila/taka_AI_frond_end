@@ -63,13 +63,13 @@ const generateStory = async (tone, imageUrl, pixelUrl, prompt, currentSelection)
         if (response.ok) {
             const data = await response.json();
             console.log("the data", data)
-            const storyText = data.story.story;
+            const story = data.story.story;
             const audioUrl = data.url;
-            const title = data.title;
-            console.log("Story:", storyText);
+            const title = data.story.title;
+            console.log("Story:", story);
             console.log("Audio URL:", audioUrl);
             const status = true;
-            return {status,title, storyText, audioUrl };
+            return {status,title, story, audioUrl };
         } else {
             console.log("error here")
             const errorMessage = `Error: Failed to generate story. Status code: ${response.status}`;

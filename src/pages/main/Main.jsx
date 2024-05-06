@@ -102,10 +102,10 @@ const Main = () => {
         //     const audio = new Audio(audioUrl);
         //     setAudio(audio);  
         // } 
-        if ()
-
-        result.storyText? setData({title:"title",story:[result.storyText]}): setData({title:"title",story:["No story generated"]});
-        setStatus("processed");
+      
+      console.log(result)
+      result.status? setData({title:result.title,story:[result.story]}): setData({title:"title",story:["No story generated"]});
+      setStatus("processed");
     })
     .catch(error => console.error(error));
   }
