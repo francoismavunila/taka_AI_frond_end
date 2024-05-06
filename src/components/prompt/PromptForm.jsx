@@ -65,7 +65,7 @@ const PromptForm = ({ setSelectedImage, generateStory, data, tones, tone, setPro
             }
             </> : null}
             
-            <button title="Select an image from pixels" type="button" className="icon" onClick={() => setPixel(true)}>
+            <button title="Select photo from pexels" type="button" className="icon" onClick={() => setPixel(true)}>
               <FaPix />
             </button>
 
@@ -76,7 +76,7 @@ const PromptForm = ({ setSelectedImage, generateStory, data, tones, tone, setPro
               style={{ display: "none" }}
               onChange={handleImageChange}
             />
-            <label title="Select an image from own gallery" htmlFor="image" className="icon">
+            <label title="Upload photo" htmlFor="image" className="icon">
               <FaImage />
             </label>
 
