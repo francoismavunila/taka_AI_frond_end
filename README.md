@@ -30,11 +30,20 @@ This will start the application at `http://localhost:3000` by default.
 ```
 2. Upload an image:
 
-The application will have a section to upload an image. Select an image and Taka AI will generate a story based on it.
+The application provides a section to upload an image.
+Select an image either from your local machine or from Pexels, a free stock photo library accessible within the app.
 
-3. View the generated story:
+3. Customize story generation:
 
-The generated story will be displayed on the screen.
+In addition to uploading an image, users can specify additional parameters for story generation.
+Tone: Choose the tone of the story (e.g., cheerful, mysterious, romantic).
+Prompt (optional): Provide a prompt to influence the narrative direction (e.g., "Tell a story about adventure").
+
+4. Generate and view the story:
+
+Click on the "Generate Story" button to initiate the story generation process.
+Taka AI will analyze the image along with the specified parameters and generate a unique story based on the input.
+The generated story will be displayed on the screen, ready for users to read and enjoy.
 
 ## Contributing
 Unfortunately, we are not accepting contributions now.
